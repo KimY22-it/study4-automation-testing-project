@@ -12,6 +12,8 @@ class PracticePage(BasePage):
     WARNING_BANNER = (By.XPATH, "//div[contains(text(), 'Bạn cần trả lời câu hỏi trong đề thi mới có thể nộp bài')]")
     TIMER = (By.ID, "timeleft")
     EXIT_BUTTON = (By.XPATH, "//a[contains(text(), 'Thoát')]")
+    PRACTICE_FULL_TEST_BUTTON = (By.XPATH, "//a[normalize-space()='Làm full test']")
+    START_TEST_BUTTON = (By.XPATH, "//a[contains(text(),'BẮT ĐẦU THI')]")
     
     def check_visible_practice_button(self):
         return self.is_visible(self.PRACTICE_BUTTON)
@@ -59,3 +61,12 @@ class PracticePage(BasePage):
         for practice_part in practice_parts:
             checkbox = practice_part.find_element(By.XPATH, ".//input[@type='checkbox']")
             self.click_by_element(checkbox)
+
+    def click_practice_full_test_button(self):
+        return self.click(self.PRACTICE_FULL_TEST_BUTTON)
+    
+    def click_start_test_button(self):
+        return self.click(self.START_TEST_BUTTON)
+    
+    def check_visible_start_test_button(self):
+        return self.is_visible(self.START_TEST_BUTTON)

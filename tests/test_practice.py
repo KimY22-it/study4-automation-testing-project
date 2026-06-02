@@ -98,3 +98,10 @@ def test_TC_PRACTICE_09_exit_test_before_submit(practice_page, part_name):
     assert 'practice' in practice_page.get_url().lower(), \
         f"Đã thoát khỏi bài luyện tập. URL hiện tại: {practice_page.get_url()}"
 
+
+def test_TC_PRACTICE_10_practice_full_test(practice_page):
+    practice_page.click_practice_full_test_button()
+    assert practice_page.check_visible_start_test_button()
+    practice_page.click_start_test_button()
+    assert practice_page.check_visible_submit_button()
+
