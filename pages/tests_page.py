@@ -29,6 +29,13 @@ class TestsPage(BasePage):
 
     def get_results(self):
         return self.find_elements(self.RESULTS)
+
+    def check_keyword_in_results(self, keyword):
+        results = self.get_results()
+        for result in results:
+            if keyword.upper() not in result.text.upper():
+                return False
+        return True
     
     def filter(self, subject):
         subjects = self.find_elements(self.FILTER_SUBJECTS)
@@ -62,7 +69,9 @@ class TestsPage(BasePage):
             "application error",
             "exception",
             "traceback",
-            "something went wrong"
+            "something went wrong",
+            "bad request"
+            "Error code 520"
         ]
 
         return not any(keyword in page_text for keyword in error_keywords)
