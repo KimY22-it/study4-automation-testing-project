@@ -12,12 +12,12 @@ def driver():
     options.set_capability("unhandledPromptBehavior", "ignore")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
-    options.add_argument(r"--user-data-dir=D:\selenium_profile")
+    options.add_argument(r"--user-data-dir=D:\selenium_profile_new")
+    options.add_argument("--start-maximized")
     driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()),
         options=options
     )
-    driver.maximize_window()
     yield driver
     driver.quit()
 
