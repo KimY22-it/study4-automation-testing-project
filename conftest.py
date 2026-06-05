@@ -12,7 +12,7 @@ def driver():
     options.set_capability("unhandledPromptBehavior", "ignore")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
-    options.add_argument(r"--user-data-dir=D:\selenium_profile")
+    options.add_argument(r"--user-data-dir=D:\selenium_profile_new")
     driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()),
         options=options
