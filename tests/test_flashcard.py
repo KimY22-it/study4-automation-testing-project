@@ -583,13 +583,11 @@ def test_TC_FLASH_PRACTICE_12_choose_options_in_review_card_and_click_known(page
                 new_text = page.get_text_in_practice_card()
             assert old_text != new_text, \
                 "Hệ thống không chuyển sang thẻ mới sau khi nhấn Đã biết."
+        elif page.check_answer_input():
+            page.click_known_in_review_card()
         else:
-            if page.check_visible_area_practice():
-                page.flip_card()
-                page.click_hard_button()
-            else:
-                page.click_known_in_review_card()
-            time.sleep(1)
+            page.flip_card()
+            page.click_hard_button()
     if retries >= max_retries and n != 1:
         pytest.skip("Không tìm thấy options card sau khi thử lại nhiều lần — bỏ qua test.")
 
