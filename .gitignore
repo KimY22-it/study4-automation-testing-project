@@ -3,7 +3,7 @@ __pycache__/
 .pytest_cache/
 
 # HTML reports
-report.html
+# report.html
 
 #screenshots
 screenshots/
