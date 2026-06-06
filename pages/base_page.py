@@ -98,6 +98,10 @@ class BasePage:
 
     def get_text(self, locator: tuple) -> str:
         return self.find_element(locator).text.strip()
+
+    def clear_text(self, locator: tuple):
+        element = self.find_element(locator)
+        element.clear()
     
     def is_visible(self, locator: tuple) -> bool:
         try:
