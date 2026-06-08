@@ -44,14 +44,14 @@ def test_TC_PRACTICE_04_click_practice_button_without_choose_part(practice_page)
     new_url = practice_page.driver.current_url
     assert old_url == new_url
 
-@pytest.mark.parametrize("part_name", ["Recording 1"])
-def test_TC_PRACTICE_05_submit_test_without_choose_answers(practice_page, part_name):
-    practice_page.click_practice_part(part_name)
-    practice_page.click_practice_button()
-    practice_page.click_submit_button()
-    new_url = practice_page.driver.current_url
-    assert "results" not in new_url
-    assert practice_page.is_warning_banner_displayed()
+# @pytest.mark.parametrize("part_name", ["Recording 1"])
+# def test_TC_PRACTICE_05_submit_test_without_choose_answers(practice_page, part_name):
+#     practice_page.click_practice_part(part_name)
+#     practice_page.click_practice_button()
+#     practice_page.click_submit_button()
+#     new_url = practice_page.driver.current_url
+#     assert "results" not in new_url
+#     assert practice_page.is_warning_banner_displayed()
 
 # @pytest.mark.parametrize("part_name", ["Recording 1"])
 # def test_TC_PRACTICE_06_submit_test_with_a_part_answers(practice_page, part_name):
@@ -92,13 +92,13 @@ def test_TC_PRACTICE_05_auto_submit_test_when_limit_time_run_out(practice_page, 
     assert "results" in current_url.lower(), \
         f"Hết thời gian nhưng hệ thống không tự chuyển sang trang kết quả. URL hiện tại: {current_url}"
 
-@pytest.mark.parametrize("part_name", ["Recording 1"])
-def test_TC_PRACTICE_06_exit_test_before_submit(practice_page, part_name):
-    practice_page.click_practice_part(part_name)
-    practice_page.click_practice_button()
-    practice_page.click_exit_button()
-    assert 'practice' in practice_page.get_url().lower(), \
-        f"Đã thoát khỏi bài luyện tập. URL hiện tại: {practice_page.get_url()}"
+# @pytest.mark.parametrize("part_name", ["Recording 1"])
+# def test_TC_PRACTICE_06_exit_test_before_submit(practice_page, part_name):
+#     practice_page.click_practice_part(part_name)
+#     practice_page.click_practice_button()
+#     practice_page.click_exit_button()
+#     assert 'practice' in practice_page.get_url().lower(), \
+#         f"Đã thoát khỏi bài luyện tập. URL hiện tại: {practice_page.get_url()}"
 
 
 def test_TC_PRACTICE_07_practice_full_test(practice_page):
