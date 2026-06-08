@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
+import re
 
 class FlashcardPage(BasePage):
 
@@ -38,6 +39,7 @@ class FlashcardPage(BasePage):
 
     REVIEW_CARD = (By.XPATH, "//div[@class='flashcard-review']")
     DEFINE_IN_REVIEW_CARD = (By.XPATH, "//div[@class='prewrap mb-2']")
+    DEFINE_IN_REVIEW_CARD_CHOOSE = (By.XPATH, "//h2[@class='font-2']")
     ANSWER_INPUT = (By.XPATH, "//input[@placeholder='Điền từ vào ô trống ...']")
 
     OPTIONS_IN_REVIEW_CARD = (By.XPATH, "//div[@class='flashcard-review-option']")
@@ -316,7 +318,22 @@ class FlashcardPage(BasePage):
 
     def get_define_in_review_card(self):
         self.switch_to_flashcard_iframe()
-        return self.get_text(self.DEFINE_IN_REVIEW_CARD)
+
+        try:
+            text = self.get_text(self.DEFINE_IN_REVIEW_CARD)
+            if text:
+                return text
+        except TimeoutException:
+            pass
+
+        try:
+            text = self.get_text(self.DEFINE_IN_REVIEW_CARD_CHOOSE)
+            if text:
+                return text
+        except TimeoutException:
+            pass
+
+        return ""
 
     def click_known_in_review_card(self):
         self.switch_to_flashcard_iframe()
@@ -346,6 +363,23 @@ class FlashcardPage(BasePage):
                 option.click()
                 break
         
+    def choose_incorrect_options_in_review_card(self, answer):
+        self.switch_to_flashcard_iframe()
+        options = self.find_elements(self.OPTIONS_IN_REVIEW_CARD)
+        for option in options:
+            if answer.strip().lower() not in option.text.strip().lower():
+                option.click()
+                break
+
     def click_continue_button(self):
         self.switch_to_flashcard_iframe()
         self.click(self.CONTINUE_BUTTON)
+
+    def normalize_review_text(self, text):
+        # Xóa các số thứ tự 1,2,3,4 đứng riêng
+        text = re.sub(r'\b[1-4]\b', '', text)
+
+        # Chuẩn hóa khoảng trắng, xuống dòng
+        text = re.sub(r'\s+', ' ', text).strip()
+
+        return text

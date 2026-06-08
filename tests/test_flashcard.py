@@ -7,13 +7,23 @@ VALID_FLASHCARD_DATA = {
     "chất lượng": "quality",
     "số lượng": "quantity",
     "môi trường": "environment",
-    "sự cẩn trọng": "caution",
+    "sự cẩn thận": "caution",
     "điều hòa": "air-coditional",
-    "sự ô nhiễm": "pollution",
+    "ô nhiễm": "pollution",
     "tủ lạnh": "refrigenator",
     "lợi ích": "benifit",
     "tiền mặt": "cash",
-    "mãi mãi": "forever"
+    "mãi mãi": "forever",
+    "quality": "chất lượng",
+    "quantity": "số lượng",
+    "environment": "môi trường",
+    "caution": "sự cẩn thận",
+    "air-coditional": "điều hòa",
+    "pollution": "ô nhiễm",
+    "refrigenator": "tủ lạnh",
+    "benifit": "lợi ích",
+    "cash": "tiền mặt",
+    "forever": "mãi mãi"
 }
 
 @pytest.fixture
@@ -492,18 +502,7 @@ def test_TC_FLASH_PRACTICE_10_choose_correct_options_in_review_card(page, card_n
             n = 1
             old_text = page.get_text_in_review_card()
             word = page.get_define_in_review_card()
-            expected_word = None
-            if word not in VALID_FLASHCARD_DATA:
-                for key, value in VALID_FLASHCARD_DATA.items():
-                    if value == word:
-                        expected_word = key
-                        break
-            else:
-                expected_word = VALID_FLASHCARD_DATA[word]
-            
-            if expected_word is None:
-                pytest.skip(f"Từ '{word}' không có trong VALID_FLASHCARD_DATA — bỏ qua test.")
-            print(expected_word)
+            expected_word = VALID_FLASHCARD_DATA[word]
             page.choose_options_in_review_card(expected_word)
             time.sleep(3)
             if page.check_visible_review_card():
@@ -534,25 +533,18 @@ def test_TC_FLASH_PRACTICE_11_choose_incorrect_options_in_review_card(page, card
             n = 1
             old_text = page.get_text_in_review_card()
             word = page.get_define_in_review_card()
-            expected_word = None
-            if word not in VALID_FLASHCARD_DATA:
-                for key, value in VALID_FLASHCARD_DATA.items():
-                    if value == word:
-                        expected_word = key
-                        break
-            else:
-                expected_word = VALID_FLASHCARD_DATA[word]
-            
-            if expected_word is None:
-                pytest.skip(f"Từ '{word}' không có trong VALID_FLASHCARD_DATA — bỏ qua test.")
+            expected_word = VALID_FLASHCARD_DATA[word]
 
-            page.choose_options_in_review_card(expected_word)
+            page.choose_incorrect_options_in_review_card(expected_word)
             time.sleep(1)
             if page.check_visible_review_card():
                 new_text = page.get_text_in_review_card()
             else:
                 new_text = page.get_text_in_practice_card()
-            assert old_text == new_text, \
+            
+            print(f"Old text: '{old_text}'")
+            print(f"New text: '{new_text}'")
+            assert page.normalize_review_text(old_text) == page.normalize_review_text(new_text), \
                 "Hệ thống chuyển sang thẻ mới sau khi chọn đáp án không chính xác."
         elif page.check_answer_input():
             page.click_known_in_review_card()
