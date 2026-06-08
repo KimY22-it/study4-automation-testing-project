@@ -1,3 +1,4 @@
+import logging
 import pytest
 import os
 from pathlib import Path
@@ -5,6 +6,12 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from screenshot_utility import take_screenshot
+
+# Giảm bớt log INFO/DEBUG từ Selenium và urllib3 để tránh hiển thị trong terminal pytest
+logging.getLogger("selenium.webdriver.remote.remote_connection").setLevel(logging.WARNING)
+logging.getLogger("urllib3.connectionpool").setLevel(logging.WARNING)
+logging.getLogger("selenium").setLevel(logging.WARNING)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 BASE_DIR = Path(__file__).resolve().parent
 REPORTS_DIR = BASE_DIR / "reports"
